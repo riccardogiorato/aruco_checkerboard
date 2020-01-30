@@ -16,9 +16,12 @@ const ArucoMarker = require("aruco-marker");
 let markerCont = document.createElement("div");
 
 let startFrom = 0;
-
 const startParam = parseInt(findGetParameter("start"), 10);
 if (startParam) startFrom = startParam;
+
+let colors = true;
+const colorParam = findGetParameter("color");
+if (colorParam) colors = colorParam === "true";
 
 // A4: 793 px x 1000 px
 const widthPrint = 793;
@@ -42,8 +45,12 @@ for (var j = 0; j < maxWidth; j++) {
     const svgImage = myMarker.toSVG(widthMarker + "px"); // the size is optional
     var markerSvg = document.createElement("span");
     markerSvg.id = "marker1";
-    if ((j % 2 && (i + 1) % 2) || ((j + 1) % 2 && i % 2))
-      markerSvg.style.filter = "invert(1)";
+    if (colors) {
+      if ((j % 2 && (i + 1) % 2) || ((j + 1) % 2 && i % 2))
+        markerSvg.style.filter = "invert(1)";
+    } else {
+      markerSvg.style.margin = "2px";
+    }
     markerSvg.innerHTML = svgImage;
     markerCont.appendChild(markerSvg);
   }
