@@ -31,12 +31,12 @@ if (!colors) widthMarker = (widthPrint - maxWidth * 2 * 2) / maxWidth;
 const heightPrint = 1000;
 const maxHeight = Math.round(heightPrint / widthMarker);
 alert(
-  "PRINTED: " +
+  "Ready for print " +
     maxWidth * maxHeight +
-    " markers - from: " +
+    " markers - ID from: " +
     startFrom +
     " to " +
-    parseInt(startFrom + maxWidth * maxHeight, 10)
+    parseInt(startFrom -1 + maxWidth * maxHeight, 10)
 );
 for (var j = 0; j < maxWidth; j++) {
   for (var i = 0; i < maxHeight; i++) {
