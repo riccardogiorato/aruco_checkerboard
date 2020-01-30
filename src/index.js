@@ -26,7 +26,8 @@ if (colorParam) colors = colorParam === "true";
 // A4: 793 px x 1000 px
 const widthPrint = 793;
 const maxWidth = 7;
-const widthMarker = widthPrint / maxWidth;
+let widthMarker = widthPrint / maxWidth;
+if (!colors) widthMarker = (widthPrint - maxWidth * 2 * 2) / maxWidth;
 const heightPrint = 1000;
 const maxHeight = Math.round(heightPrint / widthMarker);
 alert(
@@ -40,7 +41,6 @@ alert(
 for (var j = 0; j < maxWidth; j++) {
   for (var i = 0; i < maxHeight; i++) {
     const markerId = startFrom + i + j * maxHeight;
-    //console.log(markerId);
     const myMarker = new ArucoMarker(markerId);
     const svgImage = myMarker.toSVG(widthMarker + "px"); // the size is optional
     var markerSvg = document.createElement("span");
