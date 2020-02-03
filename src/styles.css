@@ -3,6 +3,27 @@
   padding: 0px;
 }
 
+span {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.invert{
+  filter:invert(1);
+}
+
+.margin2{
+  margin:2px;
+}
+
+.borderCircular{
+  border-radius: 50%;
+  border: 1px solid white;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
 @page {
   margin: 0;
 }

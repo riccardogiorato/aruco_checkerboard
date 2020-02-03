@@ -23,35 +23,54 @@ let colors = true;
 const colorParam = findGetParameter("color");
 if (colorParam) colors = colorParam === "true";
 
+let circular = false;
+const circularParam = findGetParameter("circular");
+if (circularParam) circular = circularParam === "true";
+
+let maxColumns = 7;
+const colsParam = findGetParameter("cols");
+if (colsParam) maxColumns = parseInt(colsParam);
+
 // A4: 793 px x 1000 px
 const widthPrint = 793;
-const maxWidth = 7;
-let widthMarker = widthPrint / maxWidth;
-if (!colors) widthMarker = (widthPrint - maxWidth * 2 * 2) / maxWidth;
+let widthMarker = widthPrint / maxColumns;
+if (!colors) widthMarker = (widthPrint - maxColumns * 2 * 2) / maxColumns;
 const heightPrint = 1000;
-const maxHeight = Math.round(heightPrint / widthMarker);
+const maxRows = Math.round(heightPrint / widthMarker);
 alert(
   "Ready for print " +
-    maxWidth * maxHeight +
-    " markers - ID from: " +
-    startFrom +
-    " to " +
-    parseInt(startFrom -1 + maxWidth * maxHeight, 10)
+  maxColumns * maxRows +
+  " markers - ID from: " +
+  startFrom +
+  " to " +
+  parseInt(startFrom - 1 + maxColumns * maxRows, 10)
 );
-for (var j = 0; j < maxWidth; j++) {
-  for (var i = 0; i < maxHeight; i++) {
-    const markerId = startFrom + i + j * maxHeight;
+
+document.head.insertAdjacentHTML("beforeend", '<style>span { width: ' + widthMarker + 'px; height:' + widthMarker + 'px; }</style>');
+
+
+for (var j = 0; j < maxColumns; j++) {
+  for (var i = 0; i < maxRows; i++) {
+    const markerId = startFrom + i + j * maxRows;
     const myMarker = new ArucoMarker(markerId);
     const svgImage = myMarker.toSVG(widthMarker + "px"); // the size is optional
+
+    const srcImage = 'data:image/svg+xml;utf8,' + svgImage;
+
     var markerSvg = document.createElement("span");
-    markerSvg.id = "marker1";
+    markerSvg.id = "marker_id_" + (markerId);
     if (colors) {
       if ((j % 2 && (i + 1) % 2) || ((j + 1) % 2 && i % 2))
-        markerSvg.style.filter = "invert(1)";
+        markerSvg.classList.add("invert");
     } else {
-      markerSvg.style.margin = "2px";
+      markerSvg.classList.add("margin2");
     }
-    markerSvg.innerHTML = svgImage;
+
+    if (circular) {
+      markerSvg.classList.add("borderCircular");
+    }
+
+    markerSvg.innerHTML = "<img src='" + srcImage + "' alt='' />";
     markerCont.appendChild(markerSvg);
   }
 }
