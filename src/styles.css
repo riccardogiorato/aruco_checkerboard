@@ -24,6 +24,11 @@ span {
   -webkit-box-sizing: border-box;
 }
 
+#markers{
+  text-align: center;
+  margin: 0 auto;
+}
+
 @page {
   margin: 0;
 }

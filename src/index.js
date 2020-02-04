@@ -33,11 +33,10 @@ if (colsParam) maxColumns = parseInt(colsParam);
 
 // A4: 793 px x 1000 px
 const widthPrint = 793;
-let widthMarker = widthPrint / maxColumns;
-if (!colors) widthMarker = (widthPrint - maxColumns * 2 * 2) / maxColumns;
+const widthMarker = Math.round((widthPrint - maxColumns * 4) / maxColumns);
 const heightPrint = 1000;
 const maxRows = Math.round(heightPrint / widthMarker);
-alert(
+console.log(
   "Ready for print " +
   maxColumns * maxRows +
   " markers - ID from: " +
@@ -46,22 +45,33 @@ alert(
   parseInt(startFrom - 1 + maxColumns * maxRows, 10)
 );
 
+function isInverted(number, svg) {
+  if (number % 2 != 0) {
+    svg.classList.add("invert");
+  }
+}
+
 document.head.insertAdjacentHTML("beforeend", '<style>span { width: ' + widthMarker + 'px; height:' + widthMarker + 'px; }</style>');
 
 
-for (var j = 0; j < maxColumns; j++) {
-  for (var i = 0; i < maxRows; i++) {
-    const markerId = startFrom + i + j * maxRows;
+for (var row = 0; row < maxRows; row++) {
+  for (var col = 0; col < maxColumns; col++) {
+    const incrId = row * maxColumns + col;
+    const markerId = startFrom + incrId;
+
     const myMarker = new ArucoMarker(markerId);
-    const svgImage = myMarker.toSVG(widthMarker + "px"); // the size is optional
+    const svgImage = myMarker.toSVG(widthMarker + "px");
 
     const srcImage = 'data:image/svg+xml;utf8,' + svgImage;
 
     var markerSvg = document.createElement("span");
     markerSvg.id = "marker_id_" + (markerId);
     if (colors) {
-      if ((j % 2 && (i + 1) % 2) || ((j + 1) % 2 && i % 2))
-        markerSvg.classList.add("invert");
+      if (maxColumns % 2 == 0 && row % 2 == 0) {
+        isInverted(incrId + 1, markerSvg);
+      } else {
+        isInverted(incrId, markerSvg);
+      }
     } else {
       markerSvg.classList.add("margin2");
     }
@@ -75,4 +85,6 @@ for (var j = 0; j < maxColumns; j++) {
   }
 }
 
-document.getElementById("marker").innerHTML = markerCont.innerHTML;
+const markers = document.getElementById("markers")
+markers.innerHTML = markerCont.innerHTML;
+markers.style.maxWidth = 793 + "px";
