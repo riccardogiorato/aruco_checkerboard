@@ -1,6 +1,6 @@
 {
   "name": "aruco_checkerboard",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "",
   "main": "index.html",
   "scripts": {
@@ -11,8 +11,14 @@
     "aruco-marker": "2.0.0"
   },
   "devDependencies": {
-    "@babel/core": "7.2.0",
-    "parcel-bundler": "^1.12.4"
+    "parcel": "^2.0.0-beta.2"
   },
-  "keywords": ["aruco","fiducial-markers","markers","arucogen","photogrammetry","3dscanning"]
+  "keywords": [
+    "aruco",
+    "fiducial-markers",
+    "markers",
+    "arucogen",
+    "photogrammetry",
+    "3dscanning"
+  ]
 }
